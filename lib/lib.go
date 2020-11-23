@@ -20,10 +20,10 @@ func Load(path string) (Fn, error) {
 		return nil, err
 	}
 
-	fn, ok := f.(*Fn)
+	fn, ok := f.(func() X)
 	if !ok {
 		return nil, fmt.Errorf("wrong type for %+v", f)
 	}
 
-	return *fn, nil
+	return fn, nil
 }
