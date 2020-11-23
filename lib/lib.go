@@ -7,7 +7,9 @@ import (
 
 type X int
 
-func Load(path string) (func() X, error) {
+type Fn func() X
+
+func Load(path string) (Fn, error) {
 	p, err := plugin.Open(path)
 	if err != nil {
 		return nil, err
@@ -18,7 +20,7 @@ func Load(path string) (func() X, error) {
 		return nil, err
 	}
 
-	fn, ok := f.(func() X)
+	fn, ok := f.(Fn)
 	if !ok {
 		return nil, fmt.Errorf("wrong type for %+v", f)
 	}
